@@ -24,7 +24,7 @@ def select_pokemon():
 def pvp_battle():
     '''description: battles player 0 vs player 1 active pokemon | parameters: | return: '''
     pass
-def battle():
+def battle(type='tournament'):
     '''description: battles active player active pokemon vs random pokemon of similar level : tournament, wild | parameters: type='tournament' | return: none '''
     pass
 

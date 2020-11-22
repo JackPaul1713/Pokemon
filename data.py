@@ -49,7 +49,7 @@ def load_game(file, player):
 
     pass
 
-def save_game(player):
+def save_game():
     #globals#
     global active_player
     global players
