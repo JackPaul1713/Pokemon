@@ -1,11 +1,11 @@
 Index,Pokemon Name,Min CP,Max CP
 0,Bulbasaur,200,300
-1,IvySaur,300,400
-2,Venusaur,400,500
-3,Charmander,200,300
-4,Charmeleon,300,400
-5,Charizard,400,500
-6,Squirtle,150,250
+1,Charmander,200,300
+2,Squirtle,150,250
+3,IvySaur,300,400
+4,Venusaur,400,500
+5,Charmeleon,300,400
+6,Charizard,400,500
 7,Wartortle,250,350
 8,Blastoise,350,450
 9,Caterpie,100,200
