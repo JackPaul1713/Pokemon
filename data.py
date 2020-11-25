@@ -1,3 +1,12 @@
+# By submitting this assignment, I agree to the following:
+#  "Aggies do not lie, cheat, or steal, or tolerate those who do"
+#  "I have not given or received any unauthorized aid on this assignment"
+#
+# Name:        Jack Martin, Cristian Mata, Trent Kubeczka
+# Section:     428
+# Assignment:  PokemonTBE Group Project
+# Date:        24 November 2020
+
 #INIT#
 #import#
 import random
@@ -45,7 +54,6 @@ def load_game(game_file, player):
     player_attributes = player_attributes.split('\n')
     #setup#
     active_player = player
-    players[active_player]['file'] = game_file
     players[active_player]['name'] = player_attributes[0]
     players[active_player]['active_pokemon'] = int(player_attributes[1])
     players[active_player]['pokemons'] = []
@@ -60,6 +68,7 @@ def load_game(game_file, player):
         pokemon['potential'] = [int(attributes[5]), int(attributes[6])]
         players[active_player]['pokemons'].append(pokemon)
     players[active_player]['candy'] = int(player_attributes[3])
+    players[active_player]['file'] = game_file
 
 def save_game(player):
     '''
@@ -71,6 +80,7 @@ def save_game(player):
     global players
     global pokemon_pool
     #write#
+    player = players[player]
     file = open(player['file'], 'w')
     file.write(str(player['name']) + '\n')
     file.write(str(player['active_pokemon']) + '\n')
@@ -102,11 +112,26 @@ def fill_pokemon_pool():
     pokemons = pokemons.split('\n')[1:-1]
     for pokemon in pokemons:
         attributes = pokemon.split(',')[1:]
-        pool.append((attributes[0], (attributes[1], attributes[2])))
+        pool.append((attributes[0], (int(attributes[1]), int(attributes[2]))))
     #set#
     pokemon_pool = tuple(pool)
 
 #MAIN#
 if __name__ == '__main__':
     #testing#
-    print('no testing at this point')
+    game_file = 'TestGame.txt'
+
+    print('\nfill pokemon pool')
+    fill_pokemon_pool()
+
+    print('\nnew game')
+    new_game(game_file, 0)
+    print(players[0])
+
+    print('\nsave game')
+    save_game(0)
+    print(players[0])
+
+    print('\nload game')
+    load_game(game_file, 1)
+    print(players[1])

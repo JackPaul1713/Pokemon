@@ -1,3 +1,12 @@
+# By submitting this assignment, I agree to the following:
+#  "Aggies do not lie, cheat, or steal, or tolerate those who do"
+#  "I have not given or received any unauthorized aid on this assignment"
+#
+# Name:        Jack Martin, Cristian Mata, Trent Kubeczka
+# Section:     428
+# Assignment:  PokemonTBE Group Project
+# Date:        24 November 2020
+
 #INIT#
 #import#
 import data
@@ -115,7 +124,7 @@ if __name__ == '__main__':
                             if inp == 'b':
                                 break
                             #actions#
-                            actions = [resources.level_up_pokemon, resources.heal_pokemon_wrapper]
+                            actions = [resources.level_up_pokemon_wrapper, resources.heal_pokemon_wrapper]
                             actions[int(inp) - 1]()
                             #reset#
                             inp = ''
@@ -137,7 +146,7 @@ if __name__ == '__main__':
                             if inp == 'b':
                                 break
                             #actions#
-                            resources.select_pokemon()
+                            data.players[data.active_player]['active_pokemon'] = int(resources.protected_input('Pokemon index: ', 0, 'Invalid index'))-1
                             #reset#
                             inp = ''
                     #reset#
@@ -147,6 +156,6 @@ if __name__ == '__main__':
             elif inp == '4':
                 resources.explore_wrapper()
             elif inp == '5':
-                data.save_game(data.players[data.active_player])
+                data.save_game(data.active_player)
             #reset#
             inp = ''
