@@ -122,9 +122,9 @@ def physical_attack(pokemon):
     damage = pokemon['health'][0] / pokemon['level']
     mult = bool(random.getrandbits(1))
     if mult == True:
-        damage *= 0.2
+        damage = damage + (damage * 0.2)
     else:
-        damage /= 0.2
+        damage = damage - (damage * 0.2)
     return(damage)
 def elemental_attack(pokemon):
     """
@@ -134,9 +134,9 @@ def elemental_attack(pokemon):
     damage = pokemon['attack']
     plus_minus = bool(random.getrandbits(1))
     if plus_minus == True:
-        damage *= 0.2
+        damage = damage + (damage * 0.2)
     else:
-        damage /= 0.2
+        damage = damage - (damage * 0.2)
     return (damage)
 def block():
     """
@@ -169,7 +169,10 @@ def get_opponent(pokemon):
     poke = data.pokemon_pool[random.randint(0, len(data.pokemon_pool))]
     name = poke[0]
     potential = poke[1]
-    level = pokemon['level'] + random.randint(-3, 3)
+    if pokemon['level'] > 3:
+        level = pokemon['level'] + random.randint(-3, 3)
+    else:
+        level = pokemon['level']
     attack = get_attack(level, potential)
     health = [get_max_health(level), get_max_health(level)]
     opponent = {'name': name, 'level': level, 'potential': potential, 'attack': attack, 'health': health}
@@ -231,31 +234,32 @@ def battle(player, type='tournament'):
         input('Press enter to continue')
         print('\n')
 
-        #var#
-        opp_damage = 0.0
-        opp_defence = 0.0
-        # title#
-        print('{}\'s turn'.format(opponent['name']))
-        print('')
-        # display#
-        display_pokemon(pokemon, 'short')
-        display_pokemon(opponent, 'short')
-        # random_selection#
-        opp_selection = str(random.randint(1, 3))
-        print('')
-        # action#
-        if opp_selection == '1':
-            opp_damage = physical_attack(opponent)
-            print('{} chose physical attack, doing {} damage'.format(opponent['name'], opp_damage - opp_damage * poke_defence))
-        elif opp_selection == '2':
-            opp_damage = elemental_attack(opponent)
-            print('{} chose elemental attack, doing {} damage'.format(opponent['name'], opp_damage - opp_damage * poke_defence))
-        elif opp_selection == '3':
-            poke_defence = block()
-            print('{} chose block, blocking {} % damage next turn'.format(opponent['name'], opp_defence*100))
-        pokemon['health'][0] -= (opp_damage - (opp_damage * poke_defence))
-        input('Press enter to continue')
-        print('\n')
+        if opponent['health'][0] > 0:
+            #var#
+            opp_damage = 0.0
+            opp_defence = 0.0
+            # title#
+            print('{}\'s turn'.format(opponent['name']))
+            print('')
+            # display#
+            display_pokemon(pokemon, 'short')
+            display_pokemon(opponent, 'short')
+            # random_selection#
+            opp_selection = str(random.randint(1, 3))
+            print('')
+            # action#
+            if opp_selection == '1':
+                opp_damage = physical_attack(opponent)
+                print('{} chose physical attack, doing {} damage'.format(opponent['name'], opp_damage - opp_damage * poke_defence))
+            elif opp_selection == '2':
+                opp_damage = elemental_attack(opponent)
+                print('{} chose elemental attack, doing {} damage'.format(opponent['name'], opp_damage - opp_damage * poke_defence))
+            elif opp_selection == '3':
+                opp_defence = block()
+                print('{} chose block, blocking {} % damage next turn'.format(opponent['name'], opp_defence*100))
+            pokemon['health'][0] -= (opp_damage - (opp_damage * poke_defence))
+            input('Press enter to continue')
+            print('\n')
 
     #rewards#
     if pokemon['health'][0] > 0:
@@ -269,6 +273,7 @@ def battle(player, type='tournament'):
     else:
         print('You where defeated, you suck ig?')
     player['pokemons'][player['active_pokemon']] = pokemon
+    input('Press enter to continue')
     return player
 
 
@@ -302,12 +307,14 @@ def explore(player):
             found_candy = random.randint(4, 16)
             print('A strange man in a sketchy white van offers you candy, plus {} candy'.format(found_candy))
             input('Press enter to continue')
+        player['candy'] += found_candy
         print('\n')
     #pokemon_battle#
     elif action == 2:
         print('You see a pokemon living happily in the wild. Well not anymore, you attack the pokemon')
         input('Press enter to continue')
-        player['pokemons'][player['active_pokemon']],  = battle(player['pokemons'][player['active_pokemon']], 'wild')
+        print('\n')
+        player = battle(player, 'wild')
         print('\n')
     return(player)
 
@@ -335,7 +342,7 @@ def display_pokemons_wrapper():
     pokemons = player['pokemons']
     #display#
     for i, pokemon in enumerate(pokemons):
-        print(str(i) + '.', end='')
+        print('(' + str(i+1) + ') ', end='')
         display_pokemon(pokemon, 'short')
 
 def level_up_pokemon_wrapper():
@@ -409,7 +416,7 @@ if __name__ == '__main__':
     protected_file_input('file: ')
     input('enter to continue')
 
-    print('\n long')
+    print('\ndisplay long')
     display_pokemon(pokemon, type='long')
     print('\ndisplay short')
     display_pokemon(pokemon, type='short')

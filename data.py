@@ -63,8 +63,8 @@ def load_game(game_file, player):
         pokemon = {}
         pokemon['name'] = attributes[0]
         pokemon['level'] = int(attributes[1])
-        pokemon['health'] = [int(attributes[2]), int(attributes[3])]
-        pokemon['attack'] = int(attributes[4])
+        pokemon['health'] = [float(attributes[2]), int(attributes[3])]
+        pokemon['attack'] = float(attributes[4])
         pokemon['potential'] = [int(attributes[5]), int(attributes[6])]
         players[active_player]['pokemons'].append(pokemon)
     players[active_player]['candy'] = int(player_attributes[3])

@@ -37,7 +37,9 @@ if __name__ == '__main__':
         print('Game Select')
         print('')
         #input#
-        if inp != '3':
+        if inp == '1':
+            game_file = input('File: ')
+        elif inp == '2':
             game_file = resources.protected_file_input('File: ')
         elif inp == '3':
             try:
@@ -146,6 +148,8 @@ if __name__ == '__main__':
                             if inp == 'b':
                                 break
                             #actions#
+                            print('Select pokemon')
+                            print('')
                             data.players[data.active_player]['active_pokemon'] = int(resources.protected_input('Pokemon index: ', 0, 'Invalid index'))-1
                             #reset#
                             inp = ''
